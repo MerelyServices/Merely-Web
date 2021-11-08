@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	 <meta charset="utf-8">
+	 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	 <title>stats - merelybot</title>
+	 <meta name="description" content="interactive statistics on the performance of merelybot, updated every second.">
+	 <meta name="keywords" content="statistics, stats, live, monitoring, merely, discord, discord bot, admin, administration, automation, meme, fun, censor, search, google, images">
+	 <meta name="author" content="Yiays">
+	 
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
+	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css">
+		
+	 <link rel="stylesheet" href="main.css?v=7" type="text/css" />
+	 <link rel="stylesheet" href="stats.css?v=7" type="text/css" />
+	</head>
+	<body>
+	<nav class="navbar navbar-expand-md navbar-light bg-light">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+					<a class="nav-link" href=".">home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link active" href="stats.html">stats <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="changes.html">changes</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="https://discord.gg/f6TnEJM">try merely</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link"href="https://discordapp.com/oauth2/authorize?client_id=309270899909984267&scope=bot&permissions=104131650">add merely to your server</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	
+	<div class="outtadate">
+		<b>failed to fetch statistics!</b> merely's statistics are now out of date.
+	</div>
+	
+	<div class="container-fluid">
+		<div class="row">
+			<nav class="col-2 bg-dark sidebar">
+				<div class="sidebar-sticky">
+					<ul class="nav flex-column">
+						 <li class="nav-item">
+								<a class="nav-link active" href="#/overview">overview</a>
+						 </li>
+						 <li class="nav-item">
+								<a class="nav-link" href="#/messaging">messaging</a>
+						 </li>
+						 <li class="nav-item">
+								<a class="nav-link" href="#/memes">memes</a>
+						 </li>
+						 <li class="nav-item">
+								<a class="nav-link" href="#/censor">censor</a>
+						 </li>
+						 <li class="nav-item">
+								<a class="nav-link" href="#/search">search</a>
+						 </li>
+						 <li class="nav-item">
+								<a class="nav-link" href="#/hardware">hardware</a>
+						 </li>
+					</ul>
+				</div>
+			</nav>
+					 
+			<div id="page-content-wrapper" class="col-10 ml-auto pt-3 px-4">
+				<div class="container-fluid" id="overview">
+					<h1>overview</h1>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">messages</h5>
+									<div class="graph v graphmessages"></div>
+									<a href="#/messaging" class="btn btn-primary">See more</a>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">cpu usage</h5>
+									<div class="graph v graphcpuusage"></div>
+									<a href="#/hardware" class="btn btn-primary">See more</a>
+								</div>
+							</div>
+						</div>
+						
+					</div><div class="row">
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">uptime</h5>
+									<p class="uptime"></p>
+									<a href="#/hardware" class="btn btn-primary">See more</a>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">modules</h5>
+									<p class="modules"></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="container-fluid" id="messaging" style="display:none;">
+					<h1>messaging stats</h1>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">messages processed</h5>
+									<div class="graph v graphsent"></div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">messages ignored</h5>
+									<div class="graph v graphignored"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="container-fluid" id="memes" style="display:none;">
+					<h1>meme stats</h1>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">memes requested</h5>
+									<div class="graph v memerequests"></div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">meme originality</h5>
+									<div class="graph v graphignored"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="container-fluid" id="censor" style="display:none;">
+					<h1>censorship stats</h1>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">censorship passes</h5>
+									<div class="graph v censorpass"></div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">censorship failures</h5>
+									<div class="graph v graphignored"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="container-fluid" id="search" style="display:none;">
+					<h1>search stats</h1>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">searches</h5>
+									<div class="graph v graphsearches"></div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">images vs google vs commands</h5>
+									<div class="graph h graphsearchtype"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">top queries</h5>
+									<div class="graph h graphtopqueries"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="container-fluid" id="hardware" style="display:none;">
+					<h1>hardware stats</h1>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">cpu</h5>
+									<div class="graph v graphcpuusage"></div>
+									<table class="cpuspecs">
+										<tr>
+											<td>CPU:</td><td></td>
+											<td>Clock Speed:</td><td></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">memory</h5>
+									<div class="graph h graphmemory"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">storage</h5>
+									<div class="graph h graphstorage"></div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body">
+									<h5 class="card-title">network</h5>
+									<div class="graph v graphnetworkactivity"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+
+		
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="stats.js?v=41"></script>
+	</body>
+</html>
