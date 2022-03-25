@@ -1,43 +1,72 @@
+let dhelp;
+let special = ['clear_failed', 'serverowner'];
+
 $(document).ready(function(){
-	$('.outtadate').hide();
-	
-	loadmodal();
-	getstats();
-	window.setInterval(function(){getstats();},5000);
+	$.ajax({
+		//url:'/api/bot/dhelp',
+		url: '/offline.json',
+		success:function(data){
+			dhelp = data;
+			loadmodal();
+		},
+		error:function(data){
+			console.error(data);
+			fillmodal('error', 'failed to retrieve command! refresh the page to try again', false);
+			$('#cmdnfo').modal('show');
+		}
+	});
+
+	// Disable connection to merelybot for now
+	//getstats();
+	//window.setInterval(function(){getstats();},5000);
 });
 $(window).bind('hashchange',function(){
 	loadmodal();
 });
 
 function loadmodal(){
-	let target = window.location.href.substring(window.location.href.lastIndexOf('#')+1);
+	let target = window.location.hash;
 	
-	if(target.startsWith('/')){
+	if(dhelp && target.startsWith('#/')){
+		target = target.substring(2);
+		if(target in dhelp) {
+			fillmodal(target, dhelp[target]);
+		}else if(special.includes(target)) {
+			fillmodal(target, null);
+		}else{
+			fillmodal('error', 'the command specified could not be found!', false)
+		}
 		$('#cmdnfo').modal('show');
-		$.ajax({
-			url:'/api/bot/dhelp',
-			success:function(data){
-				fillmodal(target.substring(1),data[target.substring(1)]);
-			},
-			error:function(data){
-				fillmodal(target.substring(1),'failed to retrieve command! please try again');
-			}
-		});
 	}
 }
 
-function fillmodal(title,content){
+function fillmodal(title, content, video=true){
 	$('#cmdname').text(title);
-	if(title!='serverowner' & title!='clear_failed'){
-		var converter = new showdown.Converter();
-		content=content.replace(/(?:\r\n|\r|\n)/g, '<br>');
-		content=converter.makeHtml(content);
-		$('#cmddescription').html(content);
-		$('#cmddescription').append('\
-		<video width="720" height="360" playsinline autoplay muted loop controls>\
-			<source src="https://yiaysnet.000webhostapp.com/img/merely/'+title+'.mp4" type="video/mp4">\
-			the merely tutorial videos are unable to play on your device\
-		</video>');
+	if(!special.includes(title)){
+		var formattedcontent = [], i = 0;
+
+		content = content
+		.replace(/\{p\:(?:local|global)\}/, 'm/')
+		.replace('{c:main/botname}', 'merelybot')
+		.replace('{cmd}', title)
+		.replace(/`([^`]*)`/g, `<code>$1</code>`);
+
+		content.split('\n').forEach(line => {
+			if(i == 0) formattedcontent.push(`<b>${line}</b>`);
+			else if(i == 1) formattedcontent.push(line);
+			else formattedcontent.push(`<i>${line}</i>`);
+			i++;
+		});
+
+		$('#cmddescription').html(formattedcontent.join('<br>'));
+		if(video) {
+			$('#cmddescription').append('\
+			<video width="720" height="360" playsinline autoplay muted loop controls>\
+				<source src="/videotuts/'+title+'.mp4" type="video/mp4">\
+				the merely tutorial videos are unable to play on your device\
+			</video>\
+			<sub>Note: contents of this video may be out of date.</sub>');
+		}
 	}else if(title=='clear_failed'){
 		$('#cmddescription').html('<p><b>merely was unable to batch delete messages because of limitations with the discord API.</b></p>\
 		<ul><li>this error can be caused by a restriction in the discord api that prevents mass deletion of messages that are older than 14 days.</li>\
@@ -45,30 +74,31 @@ function fillmodal(title,content){
 		<li><i>note</i>, however, that this error can also be falsely fired if merely is unable to delete messages for any other reason. this could be something as simple as an unreliable internet connection on merely\'s end or an outage on discord\'s end.</li>\
 		<li>try again, or try with a smaller number of messages, and, if that doesn\'t work, you may need to delete the messages manually or leave them be.</li></ul>');
 	}else if(title=='serverowner'){
-		$('#cmddescription').html('<p>if you run a server with merely, you should probably know about all the exclusive* commands you can use to improve your server.</p>\
-		<div class="list-group">\
-			<h4>automated messages</h4>\
-			<a href="#/welcome" class="list-group-item list-group-item-action">merely welcome</a>\
-			<a href="#/farewell" class="list-group-item list-group-item-action">merely farewell</a>\
-		</div>\
-		<div class="list-group">\
-			<h4>cleaning</h4>\
-			<a href="#/janitor" class="list-group-item list-group-item-action">merely janitor</a>\
-			<a href="#/clean" class="list-group-item list-group-item-action">merely clean</a>\
-			<a href="#/purge" class="list-group-item list-group-item-action">merely purge</a>\
-		</div>\
-		<div class="list-group">\
-			<h4>moderation assistance</h4>\
-			<a href="#/blacklist" class="list-group-item list-group-item-action">merely blacklist</a>\
-			<a href="#/whitelist" class="list-group-item list-group-item-action">merely whitelist</a>\
-			<a href="#/lockout" class="list-group-item list-group-item-action">merely lockout</a>\
-		</div>\
-		<div class="list-group">\
-			<h4>merely updates</h4>\
-			<a href="#/feedback" class="list-group-item list-group-item-action">merely feedback</a>\
-			<a href="#/changelog" class="list-group-item list-group-item-action">merely changelog</a>\
-		</div>\
-		<p>(* = not all of them are exclusive, but they\'re all worth keeping in mind when running a server.)</p>');
+		$('#cmddescription').html(`
+			<p>server owners, use merelybot better with these tutorials!</p>
+			<div class="list-group">
+				<h4>automation</h4>
+				<a href="#/welcome" class="list-group-item list-group-item-action">set a "welcome to the server" message</a>
+				<a href="#/farewell" class="list-group-item list-group-item-action">note when users leave (and who)</a>
+				<a href="#/reactrole" class="list-group-item list-group-item-action">create reactions that give users roles</a>
+			</div>
+			<div class="list-group">
+				<h4>cleaning</h4>
+				<a href="#/clean" class="list-group-item list-group-item-action">mass delete messages from a channel</a>
+				<a href="#/janitor" class="list-group-item list-group-item-action">automateically delete messages after 30 seconds</a>
+			</div>
+			<div class="list-group">
+				<h4>extra features</h4>
+				<a href="#/changes" class="list-group-item list-group-item-action">see the changes made in recent updates</a>
+				<a href="#/feedback" class="list-group-item list-group-item-action">send feedback directly to the developers</a>
+			</div>
+			<div class="list-group">
+				<h4>premium</h4>
+				<a href="#/premium" class="list-group-item list-group-item-action">learn about premium features and how to support development</a>
+				<a href="#/prefix" class="list-group-item list-group-item-action">set custom prefixes</a>
+				<a href="#/language" class="list-group-item list-group-item-action">sponsor a professional translation of the bot</a>
+			</div>
+		`);
 	}
 }
 
