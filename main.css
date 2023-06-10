@@ -39,10 +39,10 @@ img {
 
 header {
   width: 100%;
-	background: rgba(255,255,255,0.25);
+	background: #6f9bbf;
 }
 header>div:first-child{
-	background: rgba(255,255,255,0.25);
+	background: url("data:image/webp;base64,UklGRhgAAABXRUJQVlA4TAwAAAAvAAAAAOht9wrd/wA=");
 }
 header .container{
 	padding-bottom:0.25em;
