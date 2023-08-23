@@ -151,10 +151,10 @@ if(isset($_POST['email'])){
   <div class="background gradient"></div>
   <img class="floaty" src="/music/logowhite.png" width="516" height="516" alt="Merely Logo (white)">
   <h1 class="floaty">Coming soon...</h1>
-  <form class="floaty" action="" method="POST">
+  <!--<form class="floaty" action="" method="POST">
     <input type="email" name="email" placeholder="email@example.com">
     <input type="submit" value=">">
-  </form>
+  </form>-->
   <?php
   if(isset($msg)) echo "<p class=\"floaty message $status\">$msg</p>";
   ?>
