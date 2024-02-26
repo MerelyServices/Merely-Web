@@ -1,29 +1,29 @@
-let dhelp;
+let dhelp, enINI, configINI;
 let special = ['clear_failed', 'serverowner'];
 
-$(document).ready(function(){
-	$.ajax({
-		//url:'/api/bot/dhelp',
-		url: '/offline.json',
-		success:function(data){
-			dhelp = data;
-			loadmodal();
-		},
-		error:function(data){
-			console.error(data);
-			fillmodal('error', 'failed to retrieve command! refresh the page to try again', false);
-			$('#cmdnfo').modal('show');
-		}
+$(async function(){
+	let repo = await new Tree('https://api.github.com/repos/MerelyServices/Merely-Framework/git/trees/1.x').fetch();
+	let babel = await repo.get_tree('babel');
+	let enINIData = await babel.get_file('en.ini');
+	enINI = parseINIString(enINIData.content);
+	dhelp = {};
+	// Iterate over localization files and find the documentation for each command
+	Object.keys(enINI).forEach((section) => {
+		Object.keys(enINI[section]).forEach((key) => {
+			if(key.startsWith('command_') && key.endsWith('_help'))
+				dhelp[key.substring(8, key.length - 5)] = enINI[section][key];
+		})
 	});
 
-	// Disable connection to merelybot for now
-	//getstats();
-	//window.setInterval(function(){getstats();},5000);
-});
-$(window).bind('hashchange',function(){
+	let config = await repo.get_tree('config');
+	let configINIData = await config.get_file('config.factory.ini');
+	configINI = parseINIString(configINIData.content);
+	//TODO
+
 	loadmodal();
 });
 
+window.addEventListener('hashchange', loadmodal);
 function loadmodal(){
 	let target = window.location.hash;
 	
@@ -34,7 +34,7 @@ function loadmodal(){
 		}else if(special.includes(target)) {
 			fillmodal(target, null);
 		}else{
-			fillmodal('error', 'the command specified could not be found!', false)
+			fillmodal('Unable to find command', 'This command may have been removed, or it could be undocumented.', false)
 		}
 		$('#cmdnfo').modal('show');
 	}
@@ -46,10 +46,10 @@ function fillmodal(title, content, video=true){
 		var formattedcontent = [], i = 0;
 
 		content = content
-		.replace(/\{p\:(?:local|global)\}/, 'm/')
-		.replace('{c:main/botname}', 'merelybot')
-		.replace('{cmd}', title)
-		.replace(/`([^`]*)`/g, `<code>$1</code>`);
+		.replaceAll('{cmd}', title)
+		.replaceAll(/\{p\:([a-z-_ ]*?)\}/g, '/$1')
+		.replaceAll('{c:main/botname}', 'MerelyBot')
+		.replaceAll(/`([^`]*)`/g, `<code>$1</code>`);
 
 		content.split('\n').forEach(line => {
 			if(i == 0) formattedcontent.push(`<b>${line}</b>`);
@@ -75,57 +75,79 @@ function fillmodal(title, content, video=true){
 		<li>try again, or try with a smaller number of messages, and, if that doesn\'t work, you may need to delete the messages manually or leave them be.</li></ul>');
 	}else if(title=='serverowner'){
 		$('#cmddescription').html(`
-			<p>server owners, use merelybot better with these tutorials!</p>
+			<p>Server owners, use MerelyBot better with these tutorials!</p>
 			<div class="list-group">
 				<h4>automation</h4>
-				<a href="#/welcome" class="list-group-item list-group-item-action">set a "welcome to the server" message</a>
-				<a href="#/farewell" class="list-group-item list-group-item-action">note when users leave (and who)</a>
-				<a href="#/reactrole" class="list-group-item list-group-item-action">create reactions that give users roles</a>
+				<a href="#/welcome" class="list-group-item list-group-item-action">Set a "Welcome to the server" message</a>
+				<a href="#/farewell" class="list-group-item list-group-item-action">Note when users leave (and who)</a>
+				<a href="#/reactrole" class="list-group-item list-group-item-action">Create reactions that give users roles</a>
 			</div>
 			<div class="list-group">
 				<h4>cleaning</h4>
-				<a href="#/clean" class="list-group-item list-group-item-action">mass delete messages from a channel</a>
-				<a href="#/janitor" class="list-group-item list-group-item-action">automateically delete messages after 30 seconds</a>
+				<a href="#/clean" class="list-group-item list-group-item-action">Mass-delete messages from a channel</a>
+				<a href="#/janitor" class="list-group-item list-group-item-action">Automateically delete messages after 30 seconds</a>
 			</div>
 			<div class="list-group">
 				<h4>extra features</h4>
-				<a href="#/changes" class="list-group-item list-group-item-action">see the changes made in recent updates</a>
-				<a href="#/feedback" class="list-group-item list-group-item-action">send feedback directly to the developers</a>
+				<a href="#/changes" class="list-group-item list-group-item-action">See the changes made in recent updates</a>
+				<a href="#/controlpanel" class="list-group-item list-group-item-action">Tweak advanced settings for your server</a>
 			</div>
 			<div class="list-group">
-				<h4>premium</h4>
-				<a href="#/premium" class="list-group-item list-group-item-action">learn about premium features and how to support development</a>
-				<a href="#/prefix" class="list-group-item list-group-item-action">set custom prefixes</a>
-				<a href="#/language" class="list-group-item list-group-item-action">sponsor a professional translation of the bot</a>
+				<h4>Premium</h4>
+				<a href="#/premium" class="list-group-item list-group-item-action">Learn about premium features and how to support development</a>
+				<a href="#/language" class="list-group-item list-group-item-action">Sponsor a professional translation of the bot</a>
 			</div>
 		`);
 	}
 }
 
 $('#cmdnfo').on('hidden.bs.modal', function() {
-  $('#cmdname').text('loading definitions...');
-	$('#cmddescription').text('please wait for a second while we retrieve the latest information from merely.');
+  $('#cmdname').text('Loading definitions...');
+	$('#cmddescription').text('Please wait for a second while we retrieve the latest information from MerelyBot.');
 	history.pushState("", document.title, window.location.pathname + window.location.search);
 });
 
-function getstats(){
-	$.ajax({
-		url:'/api/bot/stats',
-		success:function(data){
-			$('.outtadate').hide();
-			
-			$('#ver').text(data.core.substring(10));
-			$('#uptime').text(data.uptime);
-			$('#cpu').text(data.cpu_usage+' cpu usage');
-			$('#mem').text(data.ram_usage+' memory usage');
-			$('#modules').html('the modules<br><code>'+data.modules+'</code><br>are currently running and enabled.');
-			$('#sentrecieved').text(data.raw.sentcount+' sent / '+data.raw.recievedcount+' recieved');
-			$('#gentime').text('last update: '+data.gentime);
-			$('#lib').text(data.library);
-			$('#hardware').html("<i>"+data.hardware+"</i>");
-		},
-		error:function(data){
-			$('.outtadate').show();
-		}
-	});
+/*
+  INI Parser  - https://gist.github.com/anonymous/dad852cde5df545ed81f1bc334ea6f72
+  Modified for my needs with support for multi-line values and preserving comment data
+*/
+function parseINIString(data){
+  let regex = {
+    section: /^\s*\[\s*([^\]]*)\s*\]\s*$/,
+    param: /^\s*([^=]+?)\s*=\s*(.*?)\s*$/,
+    comment: /^\s*;.*$/
+  };
+  let out = {};
+  let lines = data.split(/[\r\n]+/);
+  let section = null;
+  let key = null;
+  let commentcounter = 0;
+
+  lines.forEach(function(line){
+    if(regex.comment.test(line)){
+      if(section) out[section]['_comment_'+commentcounter] = line;
+      else out['_comment_'+commentcounter] = line;
+      commentcounter++;
+    }else if(regex.param.test(line)){
+      let match = line.match(regex.param);
+      key = match[1];
+      if(section){
+        out[section][key] = match[2];
+      }else{
+        out[key] = match[2];
+      }
+    }else if(key && line.startsWith('\t')){
+      if(section) out[section][key] += '\n' + line.replace('\t', '');
+      else out[key] += '\n' + line.replace('\t', '');
+    }else if(regex.section.test(line)){
+      let match = line.match(regex.section);
+      out[match[1]] = {};
+      section = match[1];
+      key = null;
+    }else if(line.length == 0 && section){
+      section = null;
+      key = null;
+    };
+  });
+  return out;
 }

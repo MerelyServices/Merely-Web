@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>introducing merelybot</title>
-		<meta name="description" content="merely is a modular discord bot with a wide variety of features. the most notable being the integration with other projects on yiays.com.">
-		<meta name="keywords" content="merely, discord, discord bot, admin, administration, automation, meme, fun, censor, search, google, images">
+    <title>Merely Framework</title>
+		<meta name="description" content="merely is a modular Discord bot with a wide variety of features. the most notable being the integration with other projects on yiays.com.">
+		<meta name="keywords" content="merely, Discord, Discord bot, admin, administration, automation, meme, fun, censor, search, google, images">
 		<meta name="author" content="Yiays">
 
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -18,7 +18,6 @@
 		<meta name="theme-color" content="#127DAB">
 		
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/css/tether.min.css">
 		
     <link rel="stylesheet" href="main.css?v=8.6" type="text/css" />
   </head>
@@ -30,13 +29,17 @@
 			<div>
 				<div class="container">
 					<img src="img/merelyfull_web.webp?v=1" alt="merely intro" width="360" height="360">
-					<h1>merely <span id="ver"></span></h1>
-					<p>merely is an <a href="https://github.com/MerelyServices/Merely-Framework" title="View in GitHub">open source</a> discord bot intended to be highly modular and able to enhance a discord server it's invited to with useful commands like...</p>
+					<h1>Merely-Framework <span id="ver"></span></h1>
+					<p>
+						Merely is an <a href="https://github.com/MerelyServices/Merely-Framework" title="View in GitHub">open source</a>
+						Discord bot framework. The example implementation of Merely-Framework (Merelybot) uses all of the included
+						extensions for demonstration. Here is some highlighted commands;
+					</p>
 					<ul>
-						<li><code>m/poll</code> to bring live polls to discord</li>
-						<li><code>m/welcome</code> and <code>m/farewell</code> for custom server leave/join messages</li>
-						<li><code>m/clean</code> to quickly clean up a channel</li>
-						<li><code>m/language</code> to use translations of the bot to other languages</li>
+						<li><code>/poll</code> to bring live polls to Discord</li>
+						<li><code>/welcome</code> and <code>/farewell</code> for custom server join/leave messages</li>
+						<li><code>/clean</code> to quickly delete bot messages from a channel</li>
+						<li><code>/language</code> to speak with the bot in another language</li>
 					</ul>
 				</div>
 			</div>
@@ -48,7 +51,7 @@
 					<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 						<ul class="navbar-nav mr-auto">
 							<li class="nav-item">
-								<a class="nav-link active" href=".">home <span class="sr-only">(current)</span></a>
+								<a class="nav-link active" href=".">Home <span class="sr-only">(current)</span></a>
 							</li>
 							<!--<li class="nav-item">
 								<a class="nav-link" href="stats.html">stats</a>
@@ -59,10 +62,12 @@
 						</ul>
 						<ul class="navbar-nav">
 							<li class="nav-item">
-								<a class="nav-link" href="https://discord.gg/wfKx24kDUR">try merely</a>
+								<a class="nav-link" href="https://discord.gg/wfKx24kDUR">Try MerelyBot</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link"href="https://discordapp.com/oauth2/authorize?client_id=309270899909984267&scope=bot%20applications.commands&permissions=104131650">add merely to your server</a>
+								<a class="nav-link"href="https://discordapp.com/oauth2/authorize?client_id=309270899909984267&scope=bot%20applications.commands&permissions=104131650">
+									Add MerelyBot to your server
+								</a>
 							</li>
 						</ul>
 					</div>
@@ -80,98 +85,49 @@
 			</p>
 			<a class="btn btn-primary" href="https://blog.yiays.com/merely-turns-3-heres-some-exciting-news">read more &gt;</a>
 			<hr>-->
-			<h2 id="help">commands</h2>
+			<h2 id="help">Commands</h2>
 			<p>
 				<ul>
-					<li>to use a merely command, start your command with <code>merely </code>, <code>@merely </code> or <code>m/</code>. for example; <code>merely help</code>, <code>m/help</code> or <code>@merely help</code></code></li>
-					<li>the syntax for a command is like so: <code>merely command (required1 | required2) [optional]</code> where <code>|</code> means <code>or</code>.</li>
+					<li>To use a merely command, start your command with <code>/</code> and choose Merely's command from the list.</li>
 				</ul>
 			</p>
 			<div class="row" style="padding-left:15px">
 				<div class="col-sm-6 col-lg-4 list-group">
 					<h3>❔ help</h3>
-					<a href="#/help" class="list-group-item list-group-item-action">merely help</a>
-					<a href="#/about" class="list-group-item list-group-item-action">merely about</a>
-					<a href="#/changes" class="list-group-item list-group-item-action">merely changes</a>
-					<a href="#/feedback" class="list-group-item list-group-item-action">merely feedback</a>
-					<a href="#/premium" class="list-group-item list-group-item-action">merely premium</a>
+					<a href="#/help" class="list-group-item list-group-item-action">/help</a>
+					<a href="#/about" class="list-group-item list-group-item-action">/about</a>
+					<a href="#/changes" class="list-group-item list-group-item-action">/changes</a>
+					<a href="#/premium" class="list-group-item list-group-item-action">/premium</a>
 				</div>
 				<div class="col-sm-6 col-lg-4 list-group">
 					<h3>😂 fun</h3>
-					<a href="#/thonk" class="list-group-item list-group-item-action">merely thonk</a>
-					<a href="#/poll" class="list-group-item list-group-item-action">merely poll</a>
-					<a href="#/dice" class="list-group-item list-group-item-action">merely dice</a>
-					<a href="#/emoji" class="list-group-item list-group-item-action">merely emoji 🆕</a>
+					<a href="#/poll" class="list-group-item list-group-item-action">/poll</a>
+					<a href="#/dice" class="list-group-item list-group-item-action">/dice</a>
+					<a href="#/emoji" class="list-group-item list-group-item-action">/emoji</a>
 				</div>
 				<div class="col-sm-6 col-lg-4 list-group">
 					<h3>🛠️ tools</h3>
-					<a href="#/prefix" class="list-group-item list-group-item-action">merely prefix</a>
-					<a href="#/language" class="list-group-item list-group-item-action">merely language</a>
-					<a href="#/clean" class="list-group-item list-group-item-action">merely clean</a>
-					<a href="#/janitor" class="list-group-item list-group-item-action">merely janitor</a>
-					<a href="#/reactrole" class="list-group-item list-group-item-action">merely reactrole 🆕</a>
+					<a href="#/language" class="list-group-item list-group-item-action">/language</a>
+					<a href="#/clean" class="list-group-item list-group-item-action">/clean</a>
+					<a href="#/janitor" class="list-group-item list-group-item-action">/janitor</a>
+					<a href="#/reactrole" class="list-group-item list-group-item-action">/reactrole</a>
 				</div>
 			</div>
 			<br>
-			<a class="btn btn-primary" href="#/serverowner">additional info for server owners &gt;</a>
-			<!--<hr>
-			<h2>stats</h2>
-			<p>here's how merely has been performing recently...</p>
-			<div class="row">
-				<div class="col-12 col-sm-6 col-md-4 col-lg-3">
-					<div class="card">
-						<h4 class="card-header">Responses</h4>
-						<div class="card-body">
-							<h5 class="card-title" id="sentrecieved">{raw.sentcount}/{raw.recievedcount}</h5>
-							<p class="card-text">Responses sent out of messages recieved since the last time merely had to restart.</p>
-							<a href="stats.html#/messaging" class="btn btn-primary">More &gt;</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-sm-6 col-md-4 col-lg-3">
-					<div class="card">
-						<h4 class="card-header">Uptime</h4>
-						<div class="card-body">
-							<h5 class="card-title" id="uptime">{uptime}</h5>
-							<p class="card-text">Downtime typically indicates maintenance or power and internet issues.<br><sub> - Recorded from 8/03/2020</sub></p>
-							<a href="stats.html#/overview" class="btn btn-primary">More &gt;</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-sm-6 col-md-4 col-lg-3">
-					<div class="card">
-						<h4 class="card-header">Performance</h4>
-						<div class="card-body">
-							<h5 class="card-title" id="cpu">{cpu_usage}</h5>
-							<p class="card-text" id="mem">{memory_usage}</p>
-							<p class="card-text" id="hardware">{hardware}</p>
-							<a href="stats.html#/hardware" class="btn btn-primary">More &gt;</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-sm-6 col-md-4 col-lg-3">
-					<div class="card">
-						<h4 class="card-header">Modules</h4>
-						<div class="card-body">
-							<p class="card-text" id="modules">{modules} currently running and enabled.</p>
-							<a href="stats.html#/overview" class="btn btn-primary">More &gt;</a>
-						</div>
-					</div>
-				</div>
-			</div>-->
+			<a class="btn btn-primary" href="#/serverowner">Additional info for server owners &gt;</a>
     </div>
 		
 		<div class="modal fade" tabindex="-1" role="dialog" id="cmdnfo">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="cmdname">loading definitions...</h5>
+						<h5 class="modal-title" id="cmdname">Title</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body" id="cmddescription">
-						<p>please wait for a second while we retrieve the latest information from merely.</p>
+						<p>Body</p>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -186,15 +142,15 @@
 			</div>
       <div class="lv2">
         <div class="container">
-          &copy; 2021 Yiays | Powered by <span id="lib">Disnake</span> and aiohttp.
+          &copy; 2024 Yiays | Powered by <span id="lib">Disnake</span> and aiohttp.
         </div>
       </div>
     </footer>
 
 		
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script type="text/javascript" src="//cdn.yiays.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="main.js?v=19"></script>
+		<script type="text/javascript" src="github.js?v=1-rc3"></script>
+    <script type="text/javascript" src="main.js?v=20-rc14"></script>
   </body>
 </html>
