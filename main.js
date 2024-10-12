@@ -95,7 +95,6 @@ function fillmodal(title, content, video=true){
 			<div class="list-group">
 				<h4>Premium</h4>
 				<a href="#/premium" class="list-group-item list-group-item-action">Learn about premium features and how to support development</a>
-				<a href="#/language" class="list-group-item list-group-item-action">Sponsor a professional translation of the bot</a>
 			</div>
 		`);
 	}
