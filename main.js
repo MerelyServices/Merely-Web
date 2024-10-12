@@ -2,9 +2,15 @@ let dhelp, enINI, configINI;
 let special = ['clear_failed', 'serverowner'];
 
 $(async function(){
-	let repo = await new Tree('https://api.github.com/repos/MerelyServices/Merely-Framework/git/trees/1.x').fetch();
-	let babel = await repo.get_tree('babel');
-	let enINIData = await babel.get_file('en.ini');
+	let repo, babel, enINIData, config, configINIData;
+	try {
+		repo = await new Tree('https://api.github.com/repos/MerelyServices/Merely-Framework/git/trees/2.x').fetch();
+		babel = await repo.get_tree('babel');
+		enINIData = await babel.get_file('en.ini');
+	} catch(error) {
+		$('.outtadate').show();
+		console.error(error);
+	}
 	enINI = parseINIString(enINIData.content);
 	dhelp = {};
 	// Iterate over localization files and find the documentation for each command
@@ -15,9 +21,9 @@ $(async function(){
 		})
 	});
 
-	let config = await repo.get_tree('config');
+	/*let config = await repo.get_tree('config');
 	let configINIData = await config.get_file('config.factory.ini');
-	configINI = parseINIString(configINIData.content);
+	configINI = parseINIString(configINIData.content);*/
 	//TODO
 
 	loadmodal();
@@ -61,34 +67,28 @@ function fillmodal(title, content, video=true){
 		$('#cmddescription').html(formattedcontent.join('<br>'));
 		if(video) {
 			$('#cmddescription').append('\
-			<video width="720" height="360" playsinline autoplay muted loop controls>\
-				<source src="/videotuts/'+title+'.mp4" type="video/mp4">\
+			<video width="1280" height="720" playsinline autoplay muted loop controls>\
+				<source src="/videotuts/'+title+'.webm" type="video/webm">\
 				the merely tutorial videos are unable to play on your device\
 			</video>\
 			<sub>Note: contents of this video may be out of date.</sub>');
 		}
-	}else if(title=='clear_failed'){
-		$('#cmddescription').html('<p><b>merely was unable to batch delete messages because of limitations with the discord API.</b></p>\
-		<ul><li>this error can be caused by a restriction in the discord api that prevents mass deletion of messages that are older than 14 days.</li>\
-		<li>this error can also be caused by a lack of permissions, for example if merely doesn\'t have <code>READ_MESSAGE_HISTORY</code> and <code>MANAGE_MESSAGES</code>.</li>\
-		<li><i>note</i>, however, that this error can also be falsely fired if merely is unable to delete messages for any other reason. this could be something as simple as an unreliable internet connection on merely\'s end or an outage on discord\'s end.</li>\
-		<li>try again, or try with a smaller number of messages, and, if that doesn\'t work, you may need to delete the messages manually or leave them be.</li></ul>');
 	}else if(title=='serverowner'){
 		$('#cmddescription').html(`
 			<p>Server owners, use MerelyBot better with these tutorials!</p>
 			<div class="list-group">
-				<h4>automation</h4>
+				<h4>Automation</h4>
 				<a href="#/welcome" class="list-group-item list-group-item-action">Set a "Welcome to the server" message</a>
 				<a href="#/farewell" class="list-group-item list-group-item-action">Note when users leave (and who)</a>
 				<a href="#/reactrole" class="list-group-item list-group-item-action">Create reactions that give users roles</a>
 			</div>
 			<div class="list-group">
-				<h4>cleaning</h4>
+				<h4>Cleaning</h4>
 				<a href="#/clean" class="list-group-item list-group-item-action">Mass-delete messages from a channel</a>
 				<a href="#/janitor" class="list-group-item list-group-item-action">Automateically delete messages after 30 seconds</a>
 			</div>
 			<div class="list-group">
-				<h4>extra features</h4>
+				<h4>Extra features</h4>
 				<a href="#/changes" class="list-group-item list-group-item-action">See the changes made in recent updates</a>
 				<a href="#/controlpanel" class="list-group-item list-group-item-action">Tweak advanced settings for your server</a>
 			</div>

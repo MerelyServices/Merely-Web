@@ -110,10 +110,12 @@ code{
 	display: inline-block;
 }
 #cmdnfo .modal-dialog{
-	max-width:760px;
+	max-width:1300px;
 }
 #cmdnfo video{
 	width:100%;
+	height: auto;
+	aspect-ratio: 16/9;
 }
 
 .outtadate{

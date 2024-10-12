@@ -19,11 +19,11 @@
 		
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
 		
-    <link rel="stylesheet" href="main.css?v=8.6" type="text/css" />
+    <link rel="stylesheet" href="main.css?v=9.1" type="text/css" />
   </head>
   <body>
 		<div class="outtadate" style="display:none">
-			<b>failed to fetch statistics!</b> merely's statistics are now out of date.
+			<b>Failed to fetch usage information!</b> Ensure you have access to GitHub and you're not being rate limited.
 		</div>
 		<header>
 			<div>
@@ -32,14 +32,15 @@
 					<h1>Merely-Framework <span id="ver"></span></h1>
 					<p>
 						Merely is an <a href="https://github.com/MerelyServices/Merely-Framework" title="View in GitHub">open source</a>
-						Discord bot framework. The example implementation of Merely-Framework (Merelybot) uses all of the included
+						Discord bot framework. The example implementation of Merely-Framework (MerelyBot) uses all of the included
 						extensions for demonstration. Here is some highlighted commands;
 					</p>
 					<ul>
-						<li><code>/poll</code> to bring live polls to Discord</li>
+						<li><code>/poll</code> to create multi-choice rapid-fire polls</li>
+						<li><code>/download</code> to download videos from any website and reupload them to chat</li>
 						<li><code>/welcome</code> and <code>/farewell</code> for custom server join/leave messages</li>
-						<li><code>/clean</code> to quickly delete bot messages from a channel</li>
-						<li><code>/language</code> to speak with the bot in another language</li>
+						<li><code>/clean</code> to quickly delete messages from a channel</li>
+						<li><code>/language</code> to use MerelyBot in another language</li>
 					</ul>
 				</div>
 			</div>
@@ -65,7 +66,7 @@
 								<a class="nav-link" href="https://discord.gg/wfKx24kDUR">Try MerelyBot</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link"href="https://discordapp.com/oauth2/authorize?client_id=309270899909984267&scope=bot%20applications.commands&permissions=104131650">
+								<a class="nav-link"href="https://discordapp.com/oauth2/authorize?client_id=309270899909984267">
 									Add MerelyBot to your server
 								</a>
 							</li>
@@ -75,16 +76,23 @@
 			</div>
 		</header>
     <div class="container">
-			<!--<h2>news</h2>
+			<h2 id="news">MerelyBot v2.0 launch</h2>
 			<p>
-				<b>merely turns 3!</b> - merely has been in development for three years and there's some exciting new features around the corner with the v1.0 update!
+				Use commands in group chats and any server by adding MerelyBot to your account
 			</p>
 			<p>
-				this includes custom prefixes for developers, a new meme search syntax,
-				a new way for any server owner to get new memes automatically and a new way for anyone to contribute to the meme database!
+				New command: <code>/download</code>! Download videos from almost any public website and reupload them to a Discord chat!
 			</p>
-			<a class="btn btn-primary" href="https://blog.yiays.com/merely-turns-3-heres-some-exciting-news">read more &gt;</a>
-			<hr>-->
+			<p>
+				<code>/download</code> and <code>/dice</code> can be used anywhere if you <a href="https://discordapp.com/oauth2/authorize?client_id=309270899909984267">add MerelyBot to your account</a> (choose "Try it now").
+			</p>
+			<p>
+				You can now get help for subcommands and command groups. For example, <code>/help command:welcome</code> and <code>/help command:welcome set</code> will now provide different guidance.
+			</p>
+			<!--<a class="btn btn-primary" href="https://blog.yiays.com/merely-turns-3-heres-some-exciting-news">read more &gt;</a>-->
+
+			<hr>
+
 			<h2 id="help">Commands</h2>
 			<p>
 				<ul>
@@ -93,28 +101,47 @@
 			</p>
 			<div class="row" style="padding-left:15px">
 				<div class="col-sm-6 col-lg-4 list-group">
-					<h3>❔ help</h3>
+					<h3>💡 For new users</h3>
 					<a href="#/help" class="list-group-item list-group-item-action">/help</a>
 					<a href="#/about" class="list-group-item list-group-item-action">/about</a>
 					<a href="#/changes" class="list-group-item list-group-item-action">/changes</a>
-					<a href="#/premium" class="list-group-item list-group-item-action">/premium</a>
 				</div>
 				<div class="col-sm-6 col-lg-4 list-group">
-					<h3>😂 fun</h3>
-					<a href="#/poll" class="list-group-item list-group-item-action">/poll</a>
-					<a href="#/dice" class="list-group-item list-group-item-action">/dice</a>
-					<a href="#/emoji" class="list-group-item list-group-item-action">/emoji</a>
-				</div>
-				<div class="col-sm-6 col-lg-4 list-group">
-					<h3>🛠️ tools</h3>
-					<a href="#/language" class="list-group-item list-group-item-action">/language</a>
+					<h3>⚙️ For administrators</h3>
 					<a href="#/clean" class="list-group-item list-group-item-action">/clean</a>
 					<a href="#/janitor" class="list-group-item list-group-item-action">/janitor</a>
 					<a href="#/reactrole" class="list-group-item list-group-item-action">/reactrole</a>
+					<a href="#/welcome" class="list-group-item list-group-item-action">/welcome</a>
+					<a href="#/farewell" class="list-group-item list-group-item-action">/farewell</a>
+					<a href="#/controlpanel" class="list-group-item list-group-item-action">/controlpanel</a>
+				</div>
+				<div class="col-sm-6 col-lg-4 list-group">
+					<h3>🌐 For everyone</h3>
+					<a href="#/download" class="list-group-item list-group-item-action">/download</a>
+					<a href="#/language" class="list-group-item list-group-item-action">/language</a>
+					<a href="#/poll" class="list-group-item list-group-item-action">/poll</a>
+					<a href="#/emoji" class="list-group-item list-group-item-action">/emoji</a>
+					<a href="#/dice" class="list-group-item list-group-item-action">/dice</a>
 				</div>
 			</div>
 			<br>
 			<a class="btn btn-primary" href="#/serverowner">Additional info for server owners &gt;</a>
+
+			<hr>
+
+			<h2 id="derivatives">Derivative bots</h2>
+			<p>
+				Merely-Framework is designed to be expanded upon in order to create new bots with a solid foundation.
+			</p>
+			<p>
+				<ul>
+					<li><a href="https://github.com/yiays/ConfessionBot/">ConfessionBot</a> - An anonymous messaging bot which adds secret users to channels on Discord.</li>
+				</ul>
+			</p>
+			<p>
+				If you would like to make your own derivative bot, or simply add more features to the framework,
+				start by <a href="https://github.com/MerelyServices/Merely-Framework?tab=readme-ov-file#usage">reading the information for developers</a>.
+			</p>
     </div>
 		
 		<div class="modal fade" tabindex="-1" role="dialog" id="cmdnfo">
@@ -150,7 +177,7 @@
 		
     <script type="text/javascript" src="//cdn.yiays.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
-		<script type="text/javascript" src="github.js?v=1-rc3"></script>
-    <script type="text/javascript" src="main.js?v=20-rc14"></script>
+		<script type="text/javascript" src="github.js?v=1"></script>
+    <script type="text/javascript" src="main.js?v=22.1"></script>
   </body>
 </html>
